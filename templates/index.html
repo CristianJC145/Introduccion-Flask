@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <title>Inicio</title>
+</head>
+<body>
+    <h1>Productos</h1>
+    <a class= "btn btn-outline-info" href="{{ url_for('formCrearProducto') }}">Crear Producto</a>
+    <table class="table table-dark table-bordered border-primary">
+        <tr class="">
+            <td>ID</td>
+            <td>NOMBRE</td>
+            <td>PRECIO</td>
+        </tr>
+
+        {% for producto in productos %}
+        <tr>
+            <td>{{ producto['cod'] }}</td>
+            <td>{{ producto['nombre'] }}</td>
+            <td>{{ producto['price'] }}</td>
+            <td>
+                <a class="btn btn-secondary" href="{{ url_for('editar_producto', id = producto['cod']) }}">Editar</a>
+                <a class="btn btn-danger" href="{{ url_for('eliminar_producto', id = producto['cod']) }}">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+</body>
+</html>
