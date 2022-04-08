@@ -1,29 +1,14 @@
+from wsgiref import validate
 from flask import Flask, render_template, request, redirect, url_for, flash
-import mysql.connector
-
-db = mysql.connector.connect(
-    host='localhost',
-    user='root',
-    password='',
-    port=3306,
-    database='productos'
-)
-db.autocommit = True
+from models import productosModel
 
 app = Flask(__name__)
 app.secret_key = 'spbYO0JJOPUFLUikKYbKrpS5w3KUEnab5KcYDdYb'
 
 @app.get("/")
 def inicio():
-    cursor = db.cursor(dictionary=True)
-    
-    cursor.execute("select * from productos")
-    productos = cursor.fetchall() #Obtener todo
-    #producto = cursor.fetchone() 
-    
-    cursor.close()
-    
-    return render_template("index.html", productos=productos)
+   productos = productosModel.obtenerProductos()
+   return render_template("index.html", productos=productos)
 
 @app.get("/form_crear")
 def formCrearProducto():
@@ -34,6 +19,18 @@ def crearProducto():
     #Recuperar los datos del formulario
     nombre = request.form.get('nombre')
     price = request.form.get('price')
+
+    response = Validate([
+        {
+            'value': nombre,
+            'validators': 'required,min:8'
+        },
+        {
+            'value': price,
+            'validators': 'required,numeric'
+        }
+    ])
+    print(response)
 
     is_valid = True
 
@@ -53,17 +50,7 @@ def crearProducto():
                 nombre=nombre,
                 price=price,
         )
-    
-    #Insertar los datos en la base de datos
-    cursor = db.cursor()
-    
-    cursor.execute("insert into productos(nombre, price) values(%s, %s)", (
-        nombre,
-        price,
-    ))
-    
-    cursor.close()
-    #Volver al listado
+    productosModel.crearProducto(nombre=nombre, price=price)
     return redirect(url_for('inicio'))
 
 @app.get("/contactos")
