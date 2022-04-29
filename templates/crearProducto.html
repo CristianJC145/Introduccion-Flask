@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    crearProducto
+{% endblock %}
+
+{% block content %}
+
+    <h1>Crear producto</h1>
+    {% with messages = get_flashed_messages(category_filter=['error']) %}
+      {% if messages %}
+            <ul style="color: red; font-size: 22px;">
+                {% for message in messages %}
+                    <li>
+                        {{ message }}
+                    </li>
+                 {% endfor %}    
+            </ul>
+         {% endif %}
+    {% endwith %}
+
+    {% with messages = get_flashed_messages(category_filter=['success']) %}
+      {% if messages %}
+        <ul style="color: green; font-size: 22px;">
+          {% for message in messages %}
+            <li>
+              {{ message }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('crearProducto') }}" method="POST">
+        <div class="col-3">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text"  id="nombre" name="nombre" class="form-control" value="{{ nombre }}" />
+            </div>
+        </div>
+        
+        <div class="col-3">
+            <div class="form-group">
+                <label for="price">Precio</label>
+                <input type="number"  id="price" name="price" class="form-control" value="{{ price }}"/>
+            </div>
+        </div>
+        <a href="{{ url_for('inicio') }}" class="btn btn-light">Volver</a>
+        <button type="submit" class="btn btn-primary"> Crear </button>
+        
+    </form>
+{% endblock %}

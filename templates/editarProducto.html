@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Editar Producto
+{% endblock %}
+
+{% block content %}
+
+
+  <form action="{{ url_for('editar_producto', id = producto[0]) }}" method="POST">
+      <div class="title-page">
+        <h1>Editar Productos</h1>
+      </div>
+    <div class="col-2">
+        <div class="form-group">
+          <label for="cod">ID</label>
+          <input type="text" id="cod" disabled
+              name="cod" class="form-control" 
+              value="{{ producto[0] }}"/>
+        </div>
+      </div>
+    <div class="col-2">
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" 
+              name="nombre" class="form-control" 
+              value="{{ producto[1] }}"/>
+        </div>
+    </div>
+
+    <div class="col-2">
+        <div class="form-group">
+          <label for="price">PRECIO</label>
+          <input type="text" id="price" name="price" 
+              class="form-control" 
+              value="{{ producto[2] }}"/>
+        </div>
+    </div>
+
+    <div class="col-2">
+        <div class="footer-page">
+          <a href="{{ url_for('inicio') }}" class="btn">Volver</a>
+          <button type="submit" class="btn btn-success">Guardar</button>
+        </div>
+    </div>
+  </form>
+{% endblock %}
